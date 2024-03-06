@@ -1,6 +1,11 @@
 <script setup>
+
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
+import { useScreen } from '@/composables/screen';
+
+
+const { browserWidth, deviceWidth, isMobile } = useScreen();
 const produtos = ref([]);
 
 onMounted(async () => {
@@ -9,12 +14,17 @@ onMounted(async () => {
 });
 
 const formatPrice = (price) => `R$ ${price.toFixed(2).replace('.', ',')}`;
+
 </script>
+
 <template>
   <div>
-    <h1>Produtos</h1>
+    <h1> Produtos - {{ browserWidth }} - {{ deviceWidth }} - {{
+      isMobile}} 
+      <span v-if="isMobile">É móvel</span>
+    </h1>
     <div class="container">
-      <div class="card" v-for="produto in produtos" :key="produto.id">
+      <div class="card" v-for="produto in produtos" :key="produto.id" :class="isMobile ? 'card-mobile' : 'card'">
         <h1 class="card--title">{{ produto.title }}</h1>
         <p>{{ produto.description }}</p>
         <p>{{ formatPrice(produto.price) }}</p>
@@ -23,12 +33,13 @@ const formatPrice = (price) => `R$ ${price.toFixed(2).replace('.', ',')}`;
     </div>
   </div>
 </template>
-<style scoped>
 
+<style scoped>
 @media (max-width: 768px) {
   .container {
     gap: 0.5rem;
   }
+
   .card {
     width: 92%;
   }
@@ -39,6 +50,7 @@ const formatPrice = (price) => `R$ ${price.toFixed(2).replace('.', ',')}`;
     width: 22rem;
   }
 }
+
 .container {
   display: flex;
   flex-wrap: wrap;
@@ -48,6 +60,7 @@ const formatPrice = (price) => `R$ ${price.toFixed(2).replace('.', ',')}`;
   margin: auto;
   padding: 1rem 0;
 }
+
 .card {
   display: flex;
   align-items: center;
@@ -61,12 +74,18 @@ const formatPrice = (price) => `R$ ${price.toFixed(2).replace('.', ',')}`;
   margin: auto;
   overflow: hidden;
 }
+
+.card-mobile{
+  color: aqua;
+}
+
 .card--avatar {
   width: 100%;
   height: 17rem;
   object-fit: cover;
   margin-bottom: 0.5rem;
 }
+
 .card--title {
   color: #222;
   font-weight: 700;
