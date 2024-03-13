@@ -2,11 +2,11 @@
 import RodaPe from '@/components/RodaPe.vue';
 import RodaPeMobile from '@/components/RodaPeMobile.vue';
 import { useScreen } from '@/composables/screen';
-  import { useMonitor } from '@/composables/monitor';
+import { useMonitor } from '@/composables/monitor';
 
-  const {isMobile} = useScreen()
+const {isMobile} = useScreen()
 
-  const { menu } = useMonitor();
+const { menu } = useMonitor();
 </script>
 
 <template>
